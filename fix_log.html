@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRUG | Log in</title>
+    <link rel="icon" type="image/png" href="Project Design/Title logo_imresizer.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: url("Project Design/bgm img - 2.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-color: #00ffb7;
+            background-attachment: fixed;
+            
+            /* Flexbox makes centering perfectly responsive */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: sans-serif;
+        }
+
+        .log-box {
+            border: 1.5px solid rgb(6, 246, 134);
+            border-radius: 10px;
+            background-color: rgba(127, 255, 212, 0.28);
+            backdrop-filter: blur(5px); 
+            
+            /* Responsive sizing */
+            margin-left: 40%;
+            width: 90%;
+            max-width: 500px; 
+            max-height: 800px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .log-box img {
+            width: 80%;
+            max-width: 400px;
+            margin-bottom: 10px;
+        }
+
+        .log-box hr {
+            border: 0;
+            height: 1px;
+            background: rgb(6, 246, 134);
+            width: 80%;
+            margin: 15px auto;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid rgb(6, 246, 134);
+            border-radius: 5px;
+            background-color: rgba(127, 255, 212, 0.826);
+            color: rgb(4, 80, 105);
+            font-weight: bold;
+            outline: none; /* Removes default browser focus outline */
+        }
+
+        /* Styles the placeholder text */
+        input::placeholder {
+            color: rgb(4, 80, 105);
+            opacity: 0.7;
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: aquamarine;
+        }
+
+        .links a {
+            color: aquamarine;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            
+        }
+
+        .links a:hover {
+            color: #ffffff; /* Turns white when hovered */
+        }
+
+        /* Mobile View Adjustments */
+        @media screen and (max-width: 450px) {
+            body {
+                /* Fixed the selector from .body to body */
+                background-image: url("Project Design/Six_9.png");
+            }
+            
+            .log-box {
+                padding: 40px 15px;
+                border: none; /* Removing border looks cleaner on tiny screens */
+                background-color: rgba(127, 255, 212, 0.4);
+                margin: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="log-box">
+        <img src="Project Design/download.png" alt="Logo">
+        <hr>
+        <form>
+            <div class="input-group">
+                <input type="text" name="User_ID" id="User_ID" placeholder="User ID" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="Password" id="Password" placeholder="Password" required>
+            </div>
+            
+            <div class="links">
+                <a href="Reg_pg.html">Don't have an account?</a> | <a href="#">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

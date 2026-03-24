@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DRUG | Audit Log</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="logo.jpg" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="categories.html"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li><a href="items.html"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="suppliers.html"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="transactions.html"><box-icon name='transfer' color='#ffffff'></box-icon> Transactions</a></li>
+        <li><a href="users.html"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li class="active"><a href="auditlog.html"><box-icon type='solid' name='user-account' color='#00D4D4'></box-icon> Audit Log</a></li>
+        <li><a href="exportdata.html"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Audit Log</h1>
+        <p class="subtitle">Full history of all system actions and changes.</p>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Log ID</th><th>User</th><th>Action</th><th>Module</th><th>Timestamp</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">LOG-001</td><td>Admin</td><td>Added Item ITM-005</td><td>Items</td><td>2024-10-08 09:12</td><td><span class="badge badge-green">Success</span></td></tr>
+          <tr><td class="text-cyan">LOG-002</td><td>Nurse Joy</td><td>Dispensed ITM-002</td><td>Transactions</td><td>2024-10-08 10:45</td><td><span class="badge badge-green">Success</span></td></tr>
+          <tr><td class="text-cyan">LOG-003</td><td>Admin</td><td>Updated SUP-104 status</td><td>Suppliers</td><td>2024-10-07 14:30</td><td><span class="badge badge-green">Success</span></td></tr>
+          <tr><td class="text-cyan">LOG-004</td><td>Dr. Rao</td><td>Login attempt failed</td><td>Auth</td><td>2024-10-06 08:00</td><td><span class="badge badge-red">Failed</span></td></tr>
+          <tr><td class="text-cyan">LOG-005</td><td>Admin</td><td>Deleted USR-004</td><td>Users</td><td>2024-10-05 16:20</td><td><span class="badge badge-green">Success</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>

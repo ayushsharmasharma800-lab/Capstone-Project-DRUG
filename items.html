@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DRUG | Items</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="logo.jpg" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="categories.html"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li class="active"><a href="items.html"><box-icon name='capsule' type='solid' color='#00D4D4'></box-icon> Items</a></li>
+        <li><a href="suppliers.html"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="transactions.html"><box-icon name='transfer' color='#ffffff'></box-icon> Transactions</a></li>
+        <li><a href="users.html"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li><a href="auditlog.html"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="exportdata.html"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Inventory Items</h1>
+        <p class="subtitle">Manage all drug resources, quantities, and thresholds.</p>
+      </div>
+      <button class="btn-add">+ Add New Item</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Category ID</th><th>Supplier ID</th><th>Quantity</th><th>Min Threshold</th><th>Price</th><th>Expiry Date</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">ITM-001</td><td>Amoxicillin 500mg</td><td>CAT-02</td><td>SUP-101</td><td>15,000 tablets</td><td>2,000</td><td>$0.12</td><td>2025-11-01</td></tr>
+          <tr><td class="text-cyan">ITM-002</td><td>Ibuprofen 400mg</td><td>CAT-01</td><td>SUP-102</td><td>8,500 tablets</td><td>1,000</td><td>$0.08</td><td>2026-05-15</td></tr>
+          <tr><td class="text-cyan">ITM-003</td><td>Covid-19 Booster</td><td>CAT-04</td><td>SUP-101</td><td>450 ml</td><td><span class="text-red">500</span></td><td>$15.00</td><td>2024-12-30</td></tr>
+          <tr><td class="text-cyan">ITM-004</td><td>Paracetamol IV</td><td>CAT-03</td><td>SUP-103</td><td>1,200 pieces</td><td>300</td><td>$4.50</td><td>2025-08-20</td></tr>
+          <tr><td class="text-cyan">ITM-005</td><td>Azithromycin 250mg</td><td>CAT-02</td><td>SUP-102</td><td>5,000 tablets</td><td>800</td><td>$0.35</td><td>2026-01-10</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>

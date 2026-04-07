@@ -6,14 +6,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="Project Design/Title logo_imresizer.png">
   <title>DRUG | Users</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
+
+  <div id="modalOverlay" class="modal-overlay" onclick="toggleModal(false)"></div>
+
 <div class="main_box">
   <div class="sidebar_menu">
-    <div class="logo"><img src="logo.jpg" alt="DRUG Logo"></div>
+    <div class="logo"><img src="Project Design/download.png" alt="DRUG Logo"></div>
     <div class="menu">
       <ul>
         <li><a href="index.html"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
@@ -40,7 +44,7 @@
         <h1>Users</h1>
         <p class="subtitle">Manage system users and their roles.</p>
       </div>
-      <button class="btn-add">+ Add New User</button>
+      <button class="btn-add" onclick="toggleModal(true)">+ Add New User</button>
     </div>
     <div class="table-wrapper">
       <table>
@@ -57,7 +61,178 @@
     </div>
   </div>
 </div>
+
+<div id='categoryModal' class="cat_wind">
+    <div class="heading">
+        <h3>+ Create New User</h3>
+    </div>
+    <div class="text_inpt">
+        <div class="left">
+            <label for="user_name">Full Name</label><br>
+            <input type="text" id="user_name" placeholder="e.g., Ayush Sharma"><br><br>
+            <label for="pass">Password</label><br>
+            <input type="password" name="Password" id="" placeholder="enter new password"><br><br>
+            <label for="Role">Role</label><br>
+            <select id="Role">
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="doctor">Doctor</option>
+            </select>
+            <label for="depart">Department</label>
+              <select name="Depart" id="">
+                <option value="IT Services">IT Services</option>
+                <option value="Field Staff">Field Staff</option>
+                <option value="Management">Management</option>
+              </select>
+        </div>
+        <div class="right">
+            <label>E-mail Address</label><br>
+            <input type="email" id="user_email" placeholder="e.g., ayushsharma7634@gmail.com"><br><br>
+            <label for="Conf_pass">Confirm Password</label><br>
+            <input type="password" id="Conf_pass" placeholder="Re-enter password"><br><br>
+            <label for="status">Status</label><br>
+            <select id="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select><br><br>
+
+            <label for="Auto_ID">Auto-generated ID</label><br>
+            <input type="text" id="Auto_ID" readonly value="USR-005">
+        </div>  
+    </div>
+    <div class="bottom">
+        <div class="instruc">
+            <p><span style="color:#14b8a6;">&#128712;</span> Please Ensure role and department assignments are correct for access control.</p>
+        </div>
+        <div class="buttons">
+            <button class="btn_cancel" onclick="toggleModal(false)">Cancel</button>
+            <button class="btn_save" onclick="saveData()">Save User</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* MODAL OVERLAY - Dim the background */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 998;
+    }
+
+    /* POPUP WINDOW - Fixed centering */
+    .cat_wind {
+        display: none; /* Hidden until button click */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        
+        width: 600px; /* Slightly wider for better spacing */
+        background-color: #0b141a; 
+        border: 1px solid #00D4D4;
+        box-shadow: 0 0 20px rgba(0, 212, 212, 0.2), inset 0 0 8px rgba(20, 184, 166, 0.4);
+        border-radius: 12px;
+        padding: 25px;
+        color: #94a3b8;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    .text_inpt {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+        margin-top: 15px;
+    }
+
+    .bottom {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        align-items: center;
+        column-gap: 20px;
+    }
+
+    input[type="text"], input[type="password"],input[type="email"] ,select {
+        width: 100%;
+        padding: 10px;
+        background: #1a2228;
+        border: 1px solid #0b93e1;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    textarea { resize: none; }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn_cancel {
+        background: transparent;
+        border: 1px solid #94a3b8;
+        color: #94a3b8;
+        border-radius: 8px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save {
+        background: #0ed7e1;
+        border: none;
+        color: #05386b;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save:hover { background: #7bedfa; box-shadow: 0 0 15px rgba(14, 215, 225, 0.4); }
+
+    .instruc {
+        border: 1px solid #00bfe6;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-size: 12px;
+        background: rgba(0, 191, 230, 0.05);
+    }
+</style>
+
 <script>
+   // MODAL TOGGLE LOGIC
+  function toggleModal(show) {
+      const modal = document.getElementById('categoryModal');
+      const overlay = document.getElementById('modalOverlay');
+      if (show) {
+          modal.style.display = 'block';
+          overlay.style.display = 'block';
+      } else {
+          modal.style.display = 'none';
+          overlay.style.display = 'none';
+      }
+  }
+
+  // SAVE BUTTON LOGIC
+  function saveData() {
+      const name = document.getElementById('cat_name').value;
+      if(name.trim() === "") {
+          alert("Please enter a category name.");
+          return;
+      }
+      alert("Category '" + name + "' added to DRUG system!");
+      toggleModal(false);
+  }
   document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
     const icon = li.querySelector('box-icon');
     li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });

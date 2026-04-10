@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DRUG | Items</title>
+  <link rel="icon" type="image/png" href="Project Design/Title logo_imresizer.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <!-- SIDE BAR -->
+  <div class="sidebar_menu">
+    <div class="logo"><img src="Project Design/download.png" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="categories.html"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li class="active"><a href="items.html"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="suppliers.html"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="transactions.html"><box-icon name='transfer' color='#00D4D4'></box-icon> Transactions</a></li>
+        <li><a href="users.html"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li><a href="auditlog.html"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="exportdata.html"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+<!-- CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Items</h1>
+        <p class="subtitle">Track all inventory items and their details.</p>
+      </div>
+      <a class="btn-add" href="new_items.html" target="_blank">+ New Item</a>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>ITM ID</th><th>MEDICINE NAME</th><th>GENERIC NAME</th><th>CURRENT QUANTITY</th><th>FORM</th><th>SELLING PRICE</th><th>EXPIRY DATE</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">ITM-001</td><td>Amoxicillin 500mg</td><td><span>Amoxicilln</span></td><td>5,000</td><td>Capsule</td><td>110</td><td><span class="badge badge-green">06/27</span></td></tr>
+          <tr><td class="text-cyan">ITM-002</td><td>Ibuprofen 400mg</td><td><span>Ibuprofen</span></td><td>200</td><td>Tablet</td><td>20</td><td><span class="badge">06/27</span></td></tr>
+          <tr><td class="text-cyan">ITM-003</td><td>Covid-19 Booster</td><td><span">COVID-19 Vaccine</span></td><td>100</td><td>Injection</td><td>225</td><td><span class="badge">05/26</span></td></tr>
+          <tr><td class="text-cyan">ITM-004</td><td>Paracetamol IV</td><td><span>Acetaminophen</span></td><td>50</td><td>Tablet</td><td>300</td><td><span class="badge">02/26</span></td></tr>
+          <tr><td class="text-cyan">ITM-005</td><td>Azithromycin 250mg</td><td><span>Azithromycin</span></td><td>2,000</td><td>Capsule</td><td>80</td><td><span class="badge">06/28</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const now = new Date();
+  const badges = document.querySelectorAll(".table-wrapper .badge");
+
+  badges.forEach((badge) => {
+    const [month, year] = badge.textContent.trim().split("/").map(Number);
+    
+    // Create date: Year 20XX, Month (0-indexed), Day 0 of next month 
+    // (This automatically gives the last day of the target month)
+    const expiryDate = new Date(2000 + year, month, 0);
+
+    // Calculate difference in years and months
+    const diffInMs = expiryDate - now;
+    const oneYearInMs = 1000 * 60 * 60 * 24 * 365;
+
+    // Remove any existing specific color classes first
+    badge.classList.remove("badge-red", "badge-green", "badge-blue");
+
+    if (expiryDate < now) {
+      // 1. Expired
+      badge.classList.add("badge-red");
+    } else if (diffInMs >= oneYearInMs) {
+      // 2. At least 1 year away
+      badge.classList.add("badge-green");
+    } else if (diffInMs >= 0 && diffInMs <= (1000 * 60 * 60 * 24 * 90)) {
+      // 3. Small difference (e.g., less than 90 days/3 months)
+      badge.classList.add("badge-blue");
+    }
+  });
+});
+
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRUG | Registration</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Regstnw.css') }}">
+</head>
+<body>
+    <div class="register_page">
+        <div class="register_shell">
+            <div class="logo_wrap">
+                <img src="{{ url_for('static', filename='download.png') }}" alt="DRUG Logo">
+            </div>
+            <div class="reg_box">
+                <h1>Create user account</h1>
+                <p class="reg_copy">This form is now connected to Flask, so new users are added into the demo app.</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="form_flash form_flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="post" class="reg_form">
+                    <div class="val">
+                        <div>
+                            <label>First Name</label>
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                        </div>
+                        <div>
+                            <label>Last Name</label>
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                        </div>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="Choose username" required>
+                        </div>
+                        <div>
+                            <label>Department</label>
+                            <input type="text" name="department" placeholder="Department" required>
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div>
+                            <label>Mobile Number</label>
+                            <input type="text" name="mobile" placeholder="Mobile Number">
+                        </div>
+                        <div>
+                            <label>Town / Village</label>
+                            <input type="text" name="town" placeholder="Town/Village/Mohalla">
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="Create password" required>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <a href="{{ url_for('login') }}">Already have an account?</a>
+                        <input type="submit" value="Register">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

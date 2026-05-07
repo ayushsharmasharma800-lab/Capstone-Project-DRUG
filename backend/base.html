@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DRUG{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+<div class="main_box">
+    <aside class="sidebar_menu">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='download.png') }}" alt="DRUG Logo">
+        </div>
+        <div class="menu">
+            <ul>
+                {% for endpoint, label in nav_items %}
+                <li class="{% if page == endpoint %}active{% endif %}">
+                    <a href="{{ url_for(endpoint) }}">{{ label }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="sidebar_footer">
+                {% if logged_user %}
+                <p class="sidebar_user">{{ logged_user.name }}</p>
+                <p class="sidebar_role">{{ logged_user.role }}</p>
+                {% endif %}
+                <a class="logout_link" href="{{ url_for('logout') }}">Log out</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash_stack">
+                    {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>

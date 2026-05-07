@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DRUG | Transactions</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="{{ url_for('static', filename='logo.jpg') }}" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="{{ url_for('index') }}"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="{{ url_for('categories') }}"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li><a href="{{ url_for('items') }}"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="{{ url_for('suppliers') }}"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li class="active"><a href="{{ url_for('transactions') }}"><box-icon name='transfer' color='#00D4D4'></box-icon> Transactions</a></li>
+        <li><a href="{{ url_for('users') }}"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li><a href="{{ url_for('audit_log') }}"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="{{ url_for('export_data') }}"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Transactions</h1>
+        <p class="subtitle">Track all inventory movements and transfers.</p>
+      </div>
+      <button class="btn-add">+ New Transaction</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>TXN ID</th><th>Item</th><th>Type</th><th>Quantity</th><th>Date</th><th>User</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">TXN-001</td><td>Amoxicillin 500mg</td><td><span class="badge badge-green">IN</span></td><td>5,000</td><td>2024-10-01</td><td>Admin</td><td><span class="badge badge-green">Completed</span></td></tr>
+          <tr><td class="text-cyan">TXN-002</td><td>Ibuprofen 400mg</td><td><span class="badge badge-red">OUT</span></td><td>200</td><td>2024-10-03</td><td>Nurse Joy</td><td><span class="badge badge-green">Completed</span></td></tr>
+          <tr><td class="text-cyan">TXN-003</td><td>Covid-19 Booster</td><td><span class="badge badge-green">IN</span></td><td>100</td><td>2024-10-05</td><td>Admin</td><td><span class="badge badge-blue">Pending</span></td></tr>
+          <tr><td class="text-cyan">TXN-004</td><td>Paracetamol IV</td><td><span class="badge badge-red">OUT</span></td><td>50</td><td>2024-10-06</td><td>Dr. Rao</td><td><span class="badge badge-green">Completed</span></td></tr>
+          <tr><td class="text-cyan">TXN-005</td><td>Azithromycin 250mg</td><td><span class="badge badge-green">IN</span></td><td>2,000</td><td>2024-10-08</td><td>Admin</td><td><span class="badge badge-green">Completed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>
+

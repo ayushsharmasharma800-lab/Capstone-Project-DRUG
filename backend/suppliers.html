@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+  <title>DRUG | Suppliers</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+
+  <div id="modalOverlay" class="modal-overlay" onclick="toggleModal(false)"></div>
+
+
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="{{ url_for('static', filename='download.png') }}" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="{{ url_for('index') }}"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="{{ url_for('categories') }}"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li><a href="{{ url_for('items') }}"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li class="active"><a href="{{ url_for('suppliers') }}"><box-icon name='truck' type='solid' color='#00D4D4'></box-icon> Suppliers</a></li>
+        <li><a href="{{ url_for('transactions') }}"><box-icon name='transfer' color='#ffffff'></box-icon> Transactions</a></li>
+        <li><a href="{{ url_for('users') }}"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li><a href="{{ url_for('audit_log') }}"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="{{ url_for('export_data') }}"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Suppliers</h1>
+        <p class="subtitle">Manage all drug suppliers and contacts.</p>
+      </div>
+      <button class="btn-add" onclick="toggleModal(true)">+ Add New Supplier</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Contact</th><th>Email</th><th>Phone</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">SUP-101</td><td>PharmaCo Ltd</td><td>John Smith</td><td>john@pharmaco.com</td><td>+1 555-0101</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td class="text-cyan">SUP-102</td><td>MediSupply Inc</td><td>Sarah Lee</td><td>sarah@medisupply.com</td><td>+1 555-0102</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td class="text-cyan">SUP-103</td><td>GlobalDrug Corp</td><td>Ahmed Khan</td><td>ahmed@globaldrug.com</td><td>+1 555-0103</td><td><span class="badge badge-green">Active</span></td></tr>
+          <tr><td class="text-cyan">SUP-104</td><td>BioMed Solutions</td><td>Lisa Chen</td><td>lisa@biomed.com</td><td>+1 555-0104</td><td><span class="badge badge-gray">Inactive</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id='categoryModal' class="cat_wind">
+    <div class="heading">
+        <h3>+ Add New Category</h3>
+    </div>
+    <div class="text_inpt">
+        <div class="left">
+            <label for="sup_name">Supplier Name</label><br>
+            <input type="text" id="sup_name" placeholder="e.g., PharmaCo Ltd"><br><br>
+            <label for="sup_cnt">Contact Person</label><br>
+            <input type="text" name="Pers_nm" id="sup_cnt" placeholder="e.g., Ayush Sharma">
+            <label for="sup_email">Email Address</label><br>
+            <input type="email" name="Email" id="sup_email" placeholder="e.g., ayushsharma7634@gmail.com">
+            <label for="sup_phone">Phone Number</label><br>
+            <input type="text" name="Phone" id="sup_phone" placeholder="e.g., 7634892123">
+        </div>
+        <div class="right">
+            <label>Status</label><br>
+            <select id="cat_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="low_stock">Low Stock</option>
+            </select><br><br>
+            <label for="Auto_ID">Auto-generated ID</label><br>
+            <input type="text" id="Auto_ID" readonly value="CAT-07">
+        </div>  
+    </div>
+    <div class="bottom">
+        <div class="instruc">
+            <p><span style="color:#14b8a6;">&#128712;</span> Ensure complete supplier details for data integrity.</p>
+        </div>
+        <div class="buttons">
+            <button class="btn_cancel" onclick="toggleModal(false)">Cancel</button>
+            <button class="btn_save" onclick="saveData()">Save Supplier</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* MODAL OVERLAY - Dim the background */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 998;
+    }
+    /* POPUP WINDOW - Fixed centering */
+    .cat_wind {
+        display: none; /* Hidden until button click */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        
+        width: 600px; /* Slightly wider for better spacing */
+        background-color: #0b141a; 
+        border: 1px solid #00D4D4;
+        box-shadow: 0 0 20px rgba(0, 212, 212, 0.2), inset 0 0 8px rgba(20, 184, 166, 0.4);
+        border-radius: 12px;
+        padding: 25px;
+        color: #94a3b8;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    .text_inpt {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+        margin-top: 15px;
+    }
+
+    .bottom {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        align-items: center;
+        column-gap: 20px;
+    }
+
+    input[type="text"], input[type="email"],select {
+        width: 100%;
+        padding: 10px;
+        background: #1a2228;
+        border: 1px solid #0b93e1;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    textarea { resize: none; }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn_cancel {
+        background: transparent;
+        border: 1px solid #94a3b8;
+        color: #94a3b8;
+        border-radius: 8px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save {
+        background: #0ed7e1;
+        border: none;
+        color: #05386b;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save:hover { background: #7bedfa; box-shadow: 0 0 15px rgba(14, 215, 225, 0.4); }
+
+    .instruc {
+        border: 1px solid #00bfe6;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-size: 12px;
+        background: rgba(0, 191, 230, 0.05);
+    }
+    </style>
+
+
+<script>
+  // MODAL TOGGLE LOGIC
+  function toggleModal(show) {
+      const modal = document.getElementById('categoryModal');
+      const overlay = document.getElementById('modalOverlay');
+      if (show) {
+          modal.style.display = 'block';
+          overlay.style.display = 'block';
+      } else {
+          modal.style.display = 'none';
+          overlay.style.display = 'none';
+      }
+  }
+
+  // SAVE BUTTON LOGIC
+  function saveData() {
+      const name = document.getElementById('cat_name').value;
+      if(name.trim() === "") {
+          alert("Please enter a category name.");
+          return;
+      }
+      alert("Category '" + name + "' added to DRUG system!");
+      toggleModal(false);
+  }
+
+
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>
+

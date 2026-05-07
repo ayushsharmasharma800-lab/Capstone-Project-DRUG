@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+  <title>DRUG | Audit Log</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="{{ url_for('static', filename='logo.jpg') }}" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="{{ url_for('index') }}"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="{{ url_for('categories') }}"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li><a href="{{ url_for('items') }}"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="{{ url_for('suppliers') }}"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="{{ url_for('transactions') }}"><box-icon name='transfer' color='#ffffff'></box-icon> Transactions</a></li>
+        <li><a href="{{ url_for('users') }}"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li class="active"><a href="{{ url_for('audit_log') }}"><box-icon type='solid' name='user-account' color='#00D4D4'></box-icon> Audit Log</a></li>
+        <li><a href="{{ url_for('export_data') }}"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Audit Log</h1>
+        <p class="subtitle">Track important system actions here after backend work begins.</p>
+      </div>
+      <a class="btn-add" href="{{ url_for('logout') }}">Log Out</a>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>TIME</th><th>USER</th><th>ACTION</th><th>STATUS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="text-cyan">--</td><td>Admin</td><td>No audit records yet</td><td><span class="badge badge-gray">Pending</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>

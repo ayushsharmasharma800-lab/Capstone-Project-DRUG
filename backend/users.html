@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+  <title>DRUG | Users</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+
+  <div id="modalOverlay" class="modal-overlay" onclick="toggleModal(false)"></div>
+
+<div class="main_box">
+  <div class="sidebar_menu">
+    <div class="logo"><img src="{{ url_for('static', filename='download.png') }}" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="{{ url_for('index') }}"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="{{ url_for('categories') }}"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li><a href="{{ url_for('items') }}"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="{{ url_for('suppliers') }}"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="{{ url_for('transactions') }}"><box-icon name='transfer' color='#ffffff'></box-icon> Transactions</a></li>
+        <li class="active"><a href="{{ url_for('users') }}"><box-icon name='user' color='#00D4D4'></box-icon> Users</a></li>
+        <li><a href="{{ url_for('audit_log') }}"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="{{ url_for('export_data') }}"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Users</h1>
+        <p class="subtitle">Manage system users and their roles.</p>
+      </div>
+      <button class="btn-add" onclick="toggleModal(true)">+ Add New User</button>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Last Login</th>
+              <th>Status</th>
+              <th>Actions</th>
+          </tr>
+        </thead>
+
+          <tbody>
+
+
+
+{% for user in users %}
+
+<tr>
+
+  <td class="text-cyan">{{ user.user_code }}</td>
+
+  <td>{{ user.full_name }}</td>
+
+  <td>{{ user.email }}</td>
+
+  <td>
+    <span class="badge badge-blue">
+      {{ user.role }}
+    </span>
+  </td>
+
+  <td>{{ user.last_login }}</td>
+
+  <td>
+    <span class="badge badge-green">
+      {{ user.status }}
+    </span>
+  </td>
+
+  <td>
+    <a href="{{ url_for('edit_user', id=user.id) }}">
+      Edit
+    </a>
+
+    <a href="{{ url_for('delete_user', id=user.id) }}"
+       onclick="return confirm('Delete this user?')">
+      Delete
+    </a>
+  </td>
+
+</tr>
+
+
+          {% endfor %}
+
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<form method="POST"
+      action="{% if edit_user %}
+                {{ url_for('edit_user', id=edit_user.id) }}
+              {% else %}
+                {{ url_for('add_user') }}
+              {% endif %}">
+
+<div id='categoryModal' class="cat_wind">
+
+    <div class="heading">
+        <h3>+ Create New User</h3>
+    </div>
+    <div class="text_inpt">
+        <div class="left">
+            <label for="user_name">Full Name</label><br>
+            <input type="text"
+                   id="user_name"
+                   name="full_name"
+                   value="{{ edit_user.full_name if edit_user else '' }}"
+                   placeholder="e.g., Ayush Sharma">
+            <label for="pass">Password</label><br>
+                  <input type="password"
+                         name="password"
+                         placeholder="enter new password"><br><br>
+            <label for="Role">Role</label><br>
+            <select id="Role" name="role">
+                <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="doctor">Doctor</option>
+            </select>
+            <label for="depart">Department</label>
+              <select name="department" id="">
+                <option value="IT Services">IT Services</option>
+                <option value="Field Staff">Field Staff</option>
+                <option value="Management">Management</option>
+              </select>
+        </div>
+        <div class="right">
+            <label>E-mail Address</label><br>
+            <input type="email"
+                   id="user_email"
+                   name="email" placeholder="e.g., ayushsharma7634@gmail.com"><br><br>
+            <label for="Conf_pass">Confirm Password</label><br>
+            <input type="password" id="Conf_pass" placeholder="Re-enter password"><br><br>
+            <label for="status">Status</label><br>
+            <select id="status" name="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select><br><br>
+
+            <label for="Auto_ID">Auto-generated ID</label><br>
+            <input type="text"
+                   id="Auto_ID"
+                   name="user_code"
+                   readonly
+                   value="{{ new_user_code }}"><br><br>
+        </div>  
+    </div>
+    <div class="bottom">
+        <div class="instruc">
+            <p><span style="color:#14b8a6;">&#128712;</span> Please Ensure role and department assignments are correct for access control.</p>
+        </div>
+        <div class="buttons">
+            <button class="btn_cancel" onclick="toggleModal(false)">Cancel</button>
+            <button type="submit" class="btn_save">
+                Save User
+            </button>
+        </div>
+    </div>
+</form>
+
+<style>
+    /* MODAL OVERLAY - Dim the background */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 998;
+    }
+
+    /* POPUP WINDOW - Fixed centering */
+    .cat_wind {
+        display: none; /* Hidden until button click */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        
+        width: 600px; /* Slightly wider for better spacing */
+        background-color: #0b141a; 
+        border: 1px solid #00D4D4;
+        box-shadow: 0 0 20px rgba(0, 212, 212, 0.2), inset 0 0 8px rgba(20, 184, 166, 0.4);
+        border-radius: 12px;
+        padding: 25px;
+        color: #94a3b8;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    .text_inpt {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+        margin-top: 15px;
+    }
+
+    .bottom {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        align-items: center;
+        column-gap: 20px;
+    }
+
+    input[type="text"], input[type="password"],input[type="email"] ,select {
+        width: 100%;
+        padding: 10px;
+        background: #1a2228;
+        border: 1px solid #0b93e1;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    textarea { resize: none; }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn_cancel {
+        background: transparent;
+        border: 1px solid #94a3b8;
+        color: #94a3b8;
+        border-radius: 8px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save {
+        background: #0ed7e1;
+        border: none;
+        color: #05386b;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn_save:hover { background: #7bedfa; box-shadow: 0 0 15px rgba(14, 215, 225, 0.4); }
+
+    .instruc {
+        border: 1px solid #00bfe6;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-size: 12px;
+        background: rgba(0, 191, 230, 0.05);
+    }
+</style>
+
+<script>
+   // MODAL TOGGLE LOGIC
+  function toggleModal(show) {
+      const modal = document.getElementById('categoryModal');
+      const overlay = document.getElementById('modalOverlay');
+      if (show) {
+          modal.style.display = 'block';
+          overlay.style.display = 'block';
+      } else {
+          modal.style.display = 'none';
+          overlay.style.display = 'none';
+      }
+  }
+
+  // SAVE BUTTON LOGIC
+
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+
+{% if edit_user %}
+<script>
+    toggleModal(true);
+</script>
+{% endif %}
+
+</body>
+</html>
+

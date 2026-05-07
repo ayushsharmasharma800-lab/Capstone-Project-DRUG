@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>DRUG | Items</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='Title logo_imresizer.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+<div class="main_box">
+  <!-- SIDE BAR -->
+  <div class="sidebar_menu">
+    <div class="logo"><img src="{{ url_for('static', filename='download.png') }}" alt="DRUG Logo"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="{{ url_for('index') }}"><box-icon name='qr' color='#ffffff'></box-icon> Dashboard</a></li>
+        <li><a href="{{ url_for('categories') }}"><box-icon name='category' color='#ffffff'></box-icon> Categories</a></li>
+        <li class="active"><a href="{{ url_for('items') }}"><box-icon name='capsule' type='solid' color='#ffffff'></box-icon> Items</a></li>
+        <li><a href="{{ url_for('suppliers') }}"><box-icon name='truck' type='solid' color='#ffffff'></box-icon> Suppliers</a></li>
+        <li><a href="{{ url_for('transactions') }}"><box-icon name='transfer' color='#00D4D4'></box-icon> Transactions</a></li>
+        <li><a href="{{ url_for('users') }}"><box-icon name='user' color='#ffffff'></box-icon> Users</a></li>
+        <li><a href="{{ url_for('audit_log') }}"><box-icon type='solid' name='user-account' color='#ffffff'></box-icon> Audit Log</a></li>
+        <li><a href="{{ url_for('export_data') }}"><box-icon name='export' color='#ffffff'></box-icon> Export Data</a></li>
+      </ul>
+      <div class="social_media">
+        <a href="#"><box-icon name='facebook-circle' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='twitter' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='instagram' type='logo' color='#9ca3af'></box-icon></a>
+        <a href="#"><box-icon name='github' type='logo' color='#9ca3af'></box-icon></a>
+      </div>
+    </div>
+  </div>
+<!-- CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <div>
+        <h1>Items</h1>
+        <p class="subtitle">Track all inventory items and their details.</p>
+      </div>
+      <a class="btn-add" href="{{ url_for('new_item') }}">+ New Item</a>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ITM ID</th>
+            <th>MEDICINE NAME</th>
+            <th>GENERIC NAME</th>
+            <th>CURRENT QUANTITY</th>
+            <th>FORM</th>
+            <th>SELLING PRICE</th>
+            <th>EXPIRY DATE</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+       <tbody>
+{% for item in items %}
+<tr>
+  <td class="text-cyan">{{ item.item_code }}</td>
+  <td>{{ item.name }}</td>
+  <td>{{ item.generic_name }}</td>
+  <td>{{ item.quantity }}</td>
+  <td>{{ item.form }}</td>
+  <td>{{ item.selling_price }}</td>
+  <td>{{ item.expiry_date }}</td>
+  <td>
+    <a href="{{ url_for('edit_item', id=item.id) }}">Edit</a>
+
+    <a href="{{ url_for('delete_item', id=item.id) }}"
+     onclick="return confirm('Delete this item?')">
+     Delete
+    </a>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const now = new Date();
+  const badges = document.querySelectorAll(".table-wrapper .badge");
+
+  badges.forEach((badge) => {
+    const [month, year] = badge.textContent.trim().split("/").map(Number);
+
+    // Create date: Year 20XX, Month (0-indexed), Day 0 of next month
+    // (This automatically gives the last day of the target month)
+    const expiryDate = new Date(2000 + year, month, 0);
+
+    // Calculate difference in years and months
+    const diffInMs = expiryDate - now;
+    const oneYearInMs = 1000 * 60 * 60 * 24 * 365;
+
+    // Remove any existing specific color classes first
+    badge.classList.remove("badge-red", "badge-green", "badge-blue");
+
+    if (expiryDate < now) {
+      // 1. Expired
+      badge.classList.add("badge-red");
+    } else if (diffInMs >= oneYearInMs) {
+      // 2. At least 1 year away
+      badge.classList.add("badge-green");
+    } else if (diffInMs >= 0 && diffInMs <= (1000 * 60 * 60 * 24 * 90)) {
+      // 3. Small difference (e.g., less than 90 days/3 months)
+      badge.classList.add("badge-blue");
+    }
+  });
+});
+
+  document.querySelectorAll('.sidebar_menu .menu ul li').forEach(li => {
+    const icon = li.querySelector('box-icon');
+    li.addEventListener('mouseenter', () => { if (icon) icon.setAttribute('color', '#00D4D4'); });
+    li.addEventListener('mouseleave', () => {
+      if (li.classList.contains('active')) return;
+      if (icon) icon.setAttribute('color', '#ffffff');
+    });
+  });
+</script>
+</body>
+</html>

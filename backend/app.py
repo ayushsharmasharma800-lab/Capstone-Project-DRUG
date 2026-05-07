@@ -1,4 +1,4 @@
-from models import db, Item
+from models import db, Item, User
 
 from functools import wraps
 
@@ -76,7 +76,46 @@ def logout():
 @app.route("/index")
 @login_required
 def index():
-    return render_template("index.html")
+
+    items = Item.query.all()
+
+    total_items = len(items)
+
+    low_stock = 0
+
+    for item in items:
+        if item.quantity < 500:
+            low_stock += 1
+
+    dashboard_items = []
+
+    for item in items:
+
+        if item.quantity < 500:
+            status = "Low Stock"
+        else:
+            status = "In Stock"
+
+        dashboard_items.append({
+            "id": item.item_code,
+            "name": item.name,
+            "category": item.category,
+            "quantity": item.quantity,
+            "status": status
+        })
+
+    stats = {
+        "total_items": total_items,
+        "low_stock": low_stock,
+        "total_suppliers": 0,
+        "total_transactions": 0
+    }
+
+    return render_template(
+    "index.html",
+    stats=stats,
+    items=dashboard_items
+)
 
 
 @app.route("/categories")
@@ -106,8 +145,8 @@ def new_item():
             name=request.form.get("name"),
             generic_name=request.form.get("generic_name"),
             category=request.form.get("category"),
+            form=request.form.get("form"),
             quantity=int(request.form.get("quantity")or 0),
-
             selling_price=float(request.form.get("selling_price")or 0),
             expiry_date=request.form.get("expiry_date")
         )
@@ -119,6 +158,45 @@ def new_item():
         return redirect(url_for("items"))
 
     return render_template("new_items.html")
+
+@app.route("/items/edit/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit_item(id):
+
+    item = Item.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        item.item_code = request.form.get("item_code")
+        item.name = request.form.get("name")
+        item.generic_name = request.form.get("generic_name")
+        item.category = request.form.get("category")
+        item.form = request.form.get("form")
+        item.quantity = int(request.form.get("quantity") or 0)
+        item.selling_price = float(request.form.get("selling_price") or 0)
+        item.expiry_date = request.form.get("expiry_date")
+
+        db.session.commit()
+
+        flash("Item updated successfully!", "success")
+
+        return redirect(url_for("items"))
+
+    return render_template("new_items.html", item=item)
+
+@app.route("/items/delete/<int:id>")
+@login_required
+def delete_item(id):
+
+    item = Item.query.get_or_404(id)
+
+    db.session.delete(item)
+
+    db.session.commit()
+
+    flash("Item deleted successfully!", "success")
+
+    return redirect(url_for("items"))
 
 
 @app.route("/suppliers")
@@ -139,7 +217,85 @@ def transactions():
 @app.route("/users.html")
 @login_required
 def users():
-    return render_template("users.html")
+    users = User.query.all()
+
+    last_user = User.query.order_by(User.id.desc()).first()
+
+    if last_user:
+        last_number = int(last_user.user_code.split("-")[1])
+        new_user_code = f"USR-{last_number + 1:03d}"
+    else:
+        new_user_code = "USR-001"
+
+    return render_template(
+        "users.html",
+        users=users,
+        new_user_code=new_user_code
+    )
+@app.route("/users/edit/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit_user(id):
+
+    user = User.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        user.full_name = request.form.get("full_name")
+        user.email = request.form.get("email")
+        user.password = request.form.get("password")
+        user.role = request.form.get("role")
+        user.department = request.form.get("department")
+        user.status = request.form.get("status")
+
+        db.session.commit()
+
+        flash("User updated successfully!", "success")
+
+        return redirect(url_for("users"))
+
+    users = User.query.all()
+
+    return render_template(
+        "users.html",
+        users=users,
+        edit_user=user,
+        new_user_code=user.user_code
+    )
+@app.route("/users/add", methods=["POST"])
+@login_required
+def add_user():
+
+
+    user = User(
+        user_code=request.form.get("user_code"),
+        full_name=request.form.get("full_name"),
+        email=request.form.get("email"),
+        password=request.form.get("password"),
+        role=request.form.get("role"),
+        department=request.form.get("department"),
+        status=request.form.get("status"),
+        last_login="Never"
+    )
+    db.session.add(user)
+    db.session.commit()
+
+    flash("User added successfully!", "success")
+
+    return redirect(url_for("users"))
+
+@app.route("/users/delete/<int:id>")
+@login_required
+def delete_user(id):
+    user = User.query.get_or_404(id)
+
+    db.session.delete(user)
+
+    db.session.commit()
+
+    flash("User deleted successfully!", "success")
+
+    return redirect(url_for("users"))
+
 
 
 @app.route("/audit-log")
@@ -162,7 +318,6 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
 
 
 

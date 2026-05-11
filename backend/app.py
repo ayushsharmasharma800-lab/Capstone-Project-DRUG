@@ -25,7 +25,7 @@ def login_required(view):
     def wrapped_view(*args, **kwargs):
         if "username" not in session:
             flash("Please log in to continue.", "warning")
-            return redirect(url_for("login"))
+            return redirect(url_for("index"))
         return view(*args, **kwargs)
 
     return wrapped_view
@@ -40,12 +40,12 @@ def create_db():
 @app.route("/")
 def home():
     if "username" in session:
-        return redirect(url_for("index"))
-    return redirect(url_for("login"))
+        return redirect(url_for("dashboard"))
+    return redirect(url_for("index"))
 
 
 @app.route("/login", methods=["GET", "POST"])
-@app.route("/login.html", methods=["GET", "POST"])
+@app.route("/index.html", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
@@ -56,11 +56,11 @@ def login():
             session["display_name"] = ADMIN_NAME
             session["role"] = ADMIN_ROLE
             flash("Login successful.", "success")
-            return redirect(url_for("index"))
+            return redirect(url_for("dashboard"))
 
         flash("Invalid username or password. Try admin / admin123.", "danger")
 
-    return render_template("login.html")
+    return render_template("index.html")
 
 
 @app.route("/logout")
